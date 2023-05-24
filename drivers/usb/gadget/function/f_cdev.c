@@ -566,6 +566,18 @@ static void usb_cser_resume(struct usb_function *f)
 		port_notify_serial_state(&port->port_usb);
 
 	spin_lock_irqsave(&port->port_lock, flags);
+<<<<<<< HEAD
+=======
+
+	/* process pending read request */
+	if (port->setup_pending) {
+		pr_info("%s: start_rx called due to rx_out error.\n", __func__);
+		port->setup_pending = false;
+		spin_unlock_irqrestore(&port->port_lock, flags);
+		usb_cser_start_rx(port);
+		spin_lock_irqsave(&port->port_lock, flags);
+	}
+>>>>>>> ee030cbeaa31 (Merge tag 'LA.UM.9.16.r1-13100-MANNAR.QSSI13.0' of https://git.codelinaro.org/clo/la/kernel/msm-5.4 into MMI-S2RUB32.51-15-9)
 	in = port->port_usb.in;
 	/* process any pending requests */
 	list_for_each_entry_safe(req, t, &port->write_pending, list) {

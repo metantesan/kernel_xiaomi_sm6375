@@ -337,6 +337,7 @@ static int stmfts_input_open(struct input_dev *dev)
 	struct stmfts_data *sdata = input_get_drvdata(dev);
 	int err;
 
+<<<<<<< HEAD
 	err = pm_runtime_get_sync(&sdata->client->dev);
 	if (err < 0)
 		return err;
@@ -344,6 +345,17 @@ static int stmfts_input_open(struct input_dev *dev)
 	err = i2c_smbus_write_byte(sdata->client, STMFTS_MS_MT_SENSE_ON);
 	if (err)
 		return err;
+=======
+	err = pm_runtime_resume_and_get(&sdata->client->dev);
+	if (err)
+		return err;
+
+	err = i2c_smbus_write_byte(sdata->client, STMFTS_MS_MT_SENSE_ON);
+	if (err) {
+		pm_runtime_put_sync(&sdata->client->dev);
+		return err;
+	}
+>>>>>>> ee030cbeaa31 (Merge tag 'LA.UM.9.16.r1-13100-MANNAR.QSSI13.0' of https://git.codelinaro.org/clo/la/kernel/msm-5.4 into MMI-S2RUB32.51-15-9)
 
 	mutex_lock(&sdata->mutex);
 	sdata->running = true;

@@ -73,6 +73,7 @@
 #define PCIE20_PARF_TEST_BUS (0xe4)
 #define PCIE20_PARF_MHI_CLOCK_RESET_CTRL (0x174)
 #define PCIE20_PARF_AXI_MSTR_WR_ADDR_HALT (0x1a8)
+#define PCIE20_PCIE_PARF_AXI_MSTR_WR_NS_BDF_HALT (0x4a0)
 #define PCIE20_PARF_LTSSM (0x1b0)
 #define PCIE20_PARF_INT_ALL_STATUS (0x224)
 #define PCIE20_PARF_INT_ALL_CLEAR (0x228)
@@ -845,6 +846,11 @@ struct msm_pcie_dev_t {
 	uint32_t aux_clk_freq;
 	bool linkdown_panic;
 	uint32_t boot_option;
+<<<<<<< HEAD
+=======
+	bool pcie_halt_feature_dis;
+	bool pcie_bdf_halt_dis;
+>>>>>>> ee030cbeaa31 (Merge tag 'LA.UM.9.16.r1-13100-MANNAR.QSSI13.0' of https://git.codelinaro.org/clo/la/kernel/msm-5.4 into MMI-S2RUB32.51-15-9)
 
 	uint32_t rc_idx;
 	uint32_t phy_ver;
@@ -1680,6 +1686,13 @@ static void msm_pcie_show_status(struct msm_pcie_dev_t *dev)
 		dev->wr_halt_size);
 	PCIE_DBG_FS(dev, "slv_addr_space_size: 0x%x\n",
 		dev->slv_addr_space_size);
+<<<<<<< HEAD
+=======
+	PCIE_DBG_FS(dev, "PCIe: halt_feature_dis is %d\n",
+		dev->pcie_halt_feature_dis);
+	PCIE_DBG_FS(dev, "PCIe: bdf_halt_dis is %d\n",
+		dev->pcie_bdf_halt_dis);
+>>>>>>> ee030cbeaa31 (Merge tag 'LA.UM.9.16.r1-13100-MANNAR.QSSI13.0' of https://git.codelinaro.org/clo/la/kernel/msm-5.4 into MMI-S2RUB32.51-15-9)
 	PCIE_DBG_FS(dev, "phy_status_offset: 0x%x\n",
 		dev->phy_status_offset);
 	PCIE_DBG_FS(dev, "phy_status_bit: %u\n",
@@ -4745,6 +4758,12 @@ static int msm_pcie_enable(struct msm_pcie_dev_t *dev)
 	msm_pcie_write_reg(dev->parf, PCIE20_PARF_AXI_MSTR_WR_ADDR_HALT,
 				BIT(31) | val);
 
+	if (dev->pcie_bdf_halt_dis) {
+		val = readl_relaxed(dev->parf + PCIE20_PCIE_PARF_AXI_MSTR_WR_NS_BDF_HALT);
+		msm_pcie_write_reg(dev->parf, PCIE20_PCIE_PARF_AXI_MSTR_WR_NS_BDF_HALT,
+				(~BIT(0)) & val);
+	}
+
 	/* init tcsr */
 	if (dev->tcsr_config)
 		pcie_tcsr_init(dev);
@@ -6291,6 +6310,19 @@ static int msm_pcie_probe(struct platform_device *pdev)
 	PCIE_DBG(pcie_dev, "RC%d: num-parf-testbus-sel: 0x%x.\n",
 		pcie_dev->rc_idx, pcie_dev->num_parf_testbus_sel);
 
+<<<<<<< HEAD
+=======
+	pcie_dev->pcie_halt_feature_dis = of_property_read_bool(of_node,
+			"qcom,pcie-halt-feature-dis");
+	PCIE_DBG(pcie_dev, "PCIe halt feature is %s enabled.\n",
+			pcie_dev->pcie_halt_feature_dis ? "not" : "");
+
+	pcie_dev->pcie_bdf_halt_dis = of_property_read_bool(of_node,
+			"qcom,bdf-halt-dis");
+	PCIE_DBG(pcie_dev, "PCIe BDF halt feature is %s enabled.\n",
+			pcie_dev->pcie_bdf_halt_dis ? "not" : "");
+
+>>>>>>> ee030cbeaa31 (Merge tag 'LA.UM.9.16.r1-13100-MANNAR.QSSI13.0' of https://git.codelinaro.org/clo/la/kernel/msm-5.4 into MMI-S2RUB32.51-15-9)
 	of_property_read_u32(of_node, "qcom,phy-status-offset",
 				&pcie_dev->phy_status_offset);
 	PCIE_DBG(pcie_dev, "RC%d: phy-status-offset: 0x%x.\n", pcie_dev->rc_idx,

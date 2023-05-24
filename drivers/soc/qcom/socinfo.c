@@ -187,6 +187,12 @@ static struct socinfo {
 #define SMEM_IMAGE_VERSION_OEM_OFFSET 95
 #define SMEM_IMAGE_VERSION_PARTITION_APPS 10
 
+<<<<<<< HEAD
+=======
+int softsku_idx;
+module_param_named(softsku_idx, softsku_idx, int, 0644);
+
+>>>>>>> ee030cbeaa31 (Merge tag 'LA.UM.9.16.r1-13100-MANNAR.QSSI13.0' of https://git.codelinaro.org/clo/la/kernel/msm-5.4 into MMI-S2RUB32.51-15-9)
 /* Version 2 */
 static uint32_t socinfo_get_raw_id(void)
 {

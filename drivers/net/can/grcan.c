@@ -1661,10 +1661,21 @@ static int grcan_probe(struct platform_device *ofdev)
 	/* Compare GRLIB version number with the first that does not
 	 * have the tx bug (see start_xmit)
 	 */
+<<<<<<< HEAD
 	err = of_property_read_u32(np, "systemid", &sysid);
 	if (!err && ((sysid & GRLIB_VERSION_MASK)
 		     >= GRCAN_TXBUG_SAFE_GRLIB_VERSION))
 		txbug = false;
+=======
+	sysid_parent = of_find_node_by_path("/ambapp0");
+	if (sysid_parent) {
+		err = of_property_read_u32(sysid_parent, "systemid", &sysid);
+		if (!err && ((sysid & GRLIB_VERSION_MASK) >=
+			     GRCAN_TXBUG_SAFE_GRLIB_VERSION))
+			txbug = false;
+		of_node_put(sysid_parent);
+	}
+>>>>>>> ee030cbeaa31 (Merge tag 'LA.UM.9.16.r1-13100-MANNAR.QSSI13.0' of https://git.codelinaro.org/clo/la/kernel/msm-5.4 into MMI-S2RUB32.51-15-9)
 
 	err = of_property_read_u32(np, "freq", &ambafreq);
 	if (err) {
