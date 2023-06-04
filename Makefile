@@ -1,11 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0
 VERSION = 5
 PATCHLEVEL = 4
-<<<<<<< HEAD
 SUBLEVEL = 191
-=======
-SUBLEVEL = 226
->>>>>>> ee030cbeaa31 (Merge tag 'LA.UM.9.16.r1-13100-MANNAR.QSSI13.0' of https://git.codelinaro.org/clo/la/kernel/msm-5.4 into MMI-S2RUB32.51-15-9)
 EXTRAVERSION =
 NAME = Kleptomaniac Octopus
 
